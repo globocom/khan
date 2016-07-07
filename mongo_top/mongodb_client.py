@@ -32,24 +32,21 @@ class MongoDB(object):
         return 'mongodb://{user}:{password}@{host}'.format(
             user=self._user, password=self._password, host=self._host)
 
-    @property
-    def _database_client(self):
-        client = pymongo.MongoClient(
+    def _init_database_client(self):
+        client = getattr(pymongo.MongoClient(
             self._connection_string,
             connectTimeoutMS=self._timeout
-        )
-        return getattr(client, self._database)
+        ), self._database)
 
-    def _authenticate(self):
-        return self._database_client.authenticate(
-            self._user, self._password
-        )
+        client.authenticate(self._user, self._password)
+        return client
+
 
     @contextmanager
     def pymongo(self):
         client = None
         try:
-            yield self._authenticate()
+            yield self._init_database_client()
         except pymongo.errors.OperationFailure, e:
             if e.code == 18:
                 error_message = 'Invalid credentials to database {}: {}'.format(
