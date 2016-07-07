@@ -8,9 +8,8 @@ from replication import Replication
 def arg_parse():
     parser = argparse.ArgumentParser(
         add_help=True,
-        description="Read the docs: https://github.com/globocom/mongo-top"
+        description="Read the docs: https://github.com/globocom/khan"
     )
-
 
     parser.add_argument(
         '--host',

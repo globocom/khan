@@ -3,11 +3,8 @@
 
 from setuptools import setup
 
-with open('README.rst') as readme_file:
+with open('README.md') as readme_file:
     readme = readme_file.read()
-
-with open('HISTORY.rst') as history_file:
-    history = history_file.read()
 
 requirements = [
     # TODO: put package requirements here
@@ -18,23 +15,23 @@ test_requirements = [
 ]
 
 setup(
-    name='mongo_top',
+    name='khan',
     version='0.1.0',
     description="'hack day'",
-    long_description=readme + '\n\n' + history,
+    long_description=readme,
     author="Mauro Andre Murari",
     author_email='mauro_murari@hotmail.com',
-    url='https://github.com/otherpirate/mongo_top',
+    url='https://github.com/otherpirate/khan',
     packages=[
-        'mongo_top',
+        'khan',
     ],
-    package_dir={'mongo_top':
-                 'mongo_top'},
+    package_dir={'khan':
+                 'khan'},
     include_package_data=True,
     install_requires=requirements,
     license="MIT license",
     zip_safe=False,
-    keywords='mongo_top',
+    keywords='khan',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',

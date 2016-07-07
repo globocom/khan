@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-test_mongo_top
+test_khan
 ----------------------------------
 
-Tests for `mongo_top` module.
+Tests for `khan` module.
 """
 
 
