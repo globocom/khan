@@ -6,10 +6,12 @@ mongo-top presents a real time list of queries running in a given MongoDB  insta
 
 ## Usage
 
+```sh
 mongo-ops --host <host> --port <port> --database <AdminDatabase> -u <user> -p <password> [-p|-r]
+```
 
--p Show current ops
--r Show replication status/info
+* -p Show current ops
+* -r Show replication status/info
 
 ## Dependencies
 
