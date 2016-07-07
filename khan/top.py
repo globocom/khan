@@ -9,10 +9,10 @@ class Top(object):
     def __init__(self, database_connection):
         self._database_connection = database_connection
 
-    def start(self, repeat=60):
+    def start(self, ):
         start_time = time.time()
 
-        for i in xrange(repeat):
+        while True:
             self._clear_shell()
 
             st = dt.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
