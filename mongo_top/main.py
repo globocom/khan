@@ -2,6 +2,8 @@
 import argparse
 from mongodb_client import MongoDB
 from top import Top
+from replication import Replication
+
 
 def arg_parse():
     parser = argparse.ArgumentParser(
@@ -60,8 +62,8 @@ def main():
     if parameters.is_query:
         Top(connection).start()
 
-    #if parameters.is_replication:
-    #    Replication(connection).status()
+    if parameters.is_replication:
+        Replication(connection).status()
 
 
 if __name__ == '__main__':
