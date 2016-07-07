@@ -42,6 +42,7 @@ class Replication(object):
             if member['stateStr'] == 'PRIMARY':
                 optimeDate_Primary = member['optimeDate'].replace(tzinfo=tz.tzutc()).astimezone(tz.tzlocal())
 
+
         for member in replSetGetStatus['members']:
             name = member['name']
             host, port = name.split(":")
@@ -59,6 +60,8 @@ class Replication(object):
                 optimeDate_str = optimeDate.strftime('%d-%m-%Y %H:%M:%S')
                 if optimeDate_Primary:
                     delay = optimeDate_Primary - optimeDate
+                else:
+                    delay = '-'
 
             priority = config_members[name]['priority']
             votes = config_members[name]['votes']
