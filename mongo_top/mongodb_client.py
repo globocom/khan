@@ -6,7 +6,7 @@ import pymongo
 
 LOG = logging.getLogger(__name__)
 
-MONGO_CONNECTION_DEFAULT_TIMEOUT = 5
+MONGO_CONNECTION_DEFAULT_TIMEOUT = 5000
 
 
 class AuthenticationError(Exception):
@@ -26,6 +26,15 @@ class MongoDB(object):
         self._user = user
         self._password = password
         self._timeout = timeout
+        self._client = self._init_database_client()
+
+        try:
+            self._authenticate()
+        except pymongo.errors.OperationFailure as e:
+            if e.code == 18:
+                error_message = 'Invalid credentials to database {}: {}'.format(
+                    self._database, self._connection_string)
+                raise AuthenticationError(error_message)
 
     @property
     def _connection_string(self):
@@ -38,27 +47,16 @@ class MongoDB(object):
             connectTimeoutMS=self._timeout
         ), self._database)
 
-        client.authenticate(self._user, self._password)
         return client
 
+    def _authenticate(self):
+        return self._client.authenticate(self._user, self._password)
 
     @contextmanager
     def pymongo(self):
-        client = None
         try:
-            yield self._init_database_client()
-        except pymongo.errors.OperationFailure, e:
-            if e.code == 18:
-                error_message = 'Invalid credentials to database {}: {}'.format(
-                    self._name, self._connection_string)
-                raise AuthenticationError(error_message)
-        except pymongo.errors.PyMongoError, e:
-            error_message = 'Error connecting to database {}: {}'.format(
-                self._name, self._connection_string)
+            yield self._client
+        except pymongo.errors.PyMongoError as e:
+            error_message = 'Error connecting to database {}: {}\n{}'.format(
+                self._database, self._connection_string, e)
             raise ConnectionError(error_message)
-        finally:
-            try:
-                if client:
-                    client.close()
-            except Exception:
-                pass

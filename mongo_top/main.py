@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import argparse
+from mongodb_client import MongoDB
+from top import Top
 
 def arg_parse():
     parser = argparse.ArgumentParser(
@@ -38,17 +40,28 @@ def arg_parse():
         help="Show current queries",
         action="store_true"
     )
+    parser.add_argument(
+        "-r", dest='is_replication',
+        help="Show replication status",
+        action="store_true"
+    )
     return parser.parse_args()
 
 
 def main():
     parameters = arg_parse()
-    print parameters.host
-    print parameters.port
-    print parameters.database
-    print parameters.user
-    print parameters.password
-    print parameters.is_query
+
+    connection = MongoDB(
+        host=parameters.host, port=parameters.host,
+        database=parameters.database, user=parameters.user,
+        password=parameters.password
+    )
+
+    if parameters.is_query:
+        Top(connection).start()
+
+    #if parameters.is_replication:
+    #    Replication(connection).status()
 
 
 if __name__ == '__main__':
