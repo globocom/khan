@@ -1,17 +1,18 @@
-# mongo-top - Globo.com Hack Day project
+# Khan - Globo.com Hack Day project
 
 mongo-ops is a unix "top" clone for MongoDB, inspired by Innotop and Motop.
 
-mongo-top presents a real time list of queries running in a given MongoDB  instance and information about the replication status.
+Khan presents a real time list of queries running in a given MongoDB instance and information about the replication status.
 
 ## Usage
 
 ```sh
-mongo-ops --host <host> --port <port> --database <AdminDatabase> -u <user> -p <password> [-p|-r]
+khan --host <host> --port <port> --database <AdminDatabase> -u <user> -p <password> [-q|-r]
 ```
 
-* -p Show current ops
-* -r Show replication status/info
+-q Show current ops
+
+-r Show replication status/info
 
 ## Dependencies
 
@@ -22,7 +23,7 @@ mongo-ops --host <host> --port <port> --database <AdminDatabase> -u <user> -p <p
 
 
 ```sh
-pip install mongo-top
+pip install khan
 ```
 
 ## Usage
@@ -31,7 +32,7 @@ pip install mongo-top
 
 ## Support
 
-Please [open an issue](https://github.com/globocom/mongo-top/issues) for support.
+Please [open an issue](https://github.com/globocom/khan/issues) for support.
 
 ## Contributing
 
