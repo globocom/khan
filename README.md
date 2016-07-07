@@ -4,16 +4,6 @@ Khan is a unix "top" clone for MongoDB, inspired by Innotop and Motop.
 
 Khan presents a real time list of queries running in a given MongoDB instance and information about the replication status.
 
-## Usage
-
-```sh
-khan --host <host> --port <port> --database <AdminDatabase> -u <user> -p <password> [-q|-r]
-```
-
--q Show current ops
-
--r Show replication status/info
-
 ## Dependencies
 
   * Python >= 3.5
@@ -28,7 +18,13 @@ pip install khan
 
 ## Usage
 
-* ToDO
+```sh
+khan --host <host> --port <port> --database <AdminDatabase> -u <user> -p <password> [-q|-r]
+```
+
+-q Show current ops
+
+-r Show replication status/info
 
 ## Support
 
