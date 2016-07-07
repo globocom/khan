@@ -30,8 +30,11 @@ class Replication(object):
         ]
 
         with self._database_connection.pymongo() as client:
-            replSetGetStatus = client.command('replSetGetStatus')
-            replSetGetConfig = client.command('replSetGetConfig')
+            try:
+                replSetGetStatus = client.command('replSetGetStatus')
+                replSetGetConfig = client.command('replSetGetConfig')
+            except:
+                return
 
         config_members = {}
         for member in replSetGetConfig['config']['members']:
@@ -41,7 +44,6 @@ class Replication(object):
         for member in replSetGetStatus['members']:
             if member['stateStr'] == 'PRIMARY':
                 optimeDate_Primary = member['optimeDate'].replace(tzinfo=tz.tzutc()).astimezone(tz.tzlocal())
-
 
         for member in replSetGetStatus['members']:
             name = member['name']
