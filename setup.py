@@ -6,13 +6,9 @@ from setuptools import setup
 with open('README.md') as readme_file:
     readme = readme_file.read()
 
-requirements = [
-    # TODO: put package requirements here
-]
+requirements = [req[:-1] for req in open('requirements.txt', 'r').readlines()]
 
-test_requirements = [
-    # TODO: put package test requirements here
-]
+test_requirements = requirements
 
 setup(
     name='khan',
@@ -29,6 +25,11 @@ setup(
                  'khan'},
     include_package_data=True,
     install_requires=requirements,
+    entry_points={
+        'console_scripts': [
+            'KHAN = khan.main:main',
+        ],
+    },
     license="MIT license",
     zip_safe=False,
     keywords='khan',
