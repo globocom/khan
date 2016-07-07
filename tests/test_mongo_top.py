@@ -12,7 +12,7 @@ Tests for `mongo_top` module.
 import sys
 import unittest
 
-from mongo_top import mongo_top
+from main import mongo_top
 
 
 
