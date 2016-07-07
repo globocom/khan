@@ -10,3 +10,4 @@ cryptography==1.4
 PyYAML==3.11
 PTable==0.9.2
 pymongo==3.2.2
+python-dateutil==2.5.3
