@@ -52,7 +52,7 @@ class TopCommand(BaseCommand):
         if not self._filters:
             return True
 
-        if self._filters.keys() not in values.keys():
+        if not all(filter in values.keys() for filter in self._filters.keys()):
             raise AttributeError(
                 "{} don't have {}".format(values.keys(), self._filters.keys())
             )

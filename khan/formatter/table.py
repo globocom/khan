@@ -21,11 +21,11 @@ FIELD_SIZE = {
     'Yields': 6,
     'Duration': 8,
     'collection': 25,
-    'query': 80,
+    'query': 75,
 }
 
 
-def show(lines):
+def show(lines, max_lines=30):
     print(clear_shell(), end="")
 
     print(format_header())
@@ -37,7 +37,6 @@ def show(lines):
     table = PrettyTable()
     table.field_names = lines[0].keys()
     table.align = "l"
-
     for line in lines:
         table_line = 0
         while True:
@@ -50,6 +49,9 @@ def show(lines):
 
             table.add_row(values)
             table_line += 1
+
+        if len(table._rows) >= max_lines:
+            break
 
     print(table)
 
