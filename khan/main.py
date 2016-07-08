@@ -63,7 +63,7 @@ def main():
         password=parameters.password
     )
 
-    command_class = command_factory('queries')
+    command_class = command_factory(parameters.method)
     command = command_class(connection, parameters.filters)
 
     for status in command.start():
