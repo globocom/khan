@@ -34,7 +34,7 @@ def arg_parse():
     parser.add_argument(
         "-p", dest='password',
         help="Database password",
-        required=True
+        required=False
     )
     parser.add_argument(
         "-r", dest='refresh',
@@ -68,6 +68,10 @@ def arg_parse():
 
 def main():
     parameters = arg_parse()
+
+    if not parameters.password:
+        import getpass
+        parameters.password = getpass.getpass("Enter password: ")
 
     connection = MongoDB(
         host=parameters.host, port=parameters.host,
