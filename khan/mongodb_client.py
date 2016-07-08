@@ -18,13 +18,15 @@ class ConnectionError(Exception):
 
 class MongoDB(object):
     def __init__(self, host, port, database,
-                 user, password, timeout=MONGO_CONNECTION_DEFAULT_TIMEOUT):
+                 user, password, timeout=MONGO_CONNECTION_DEFAULT_TIMEOUT,
+                 mongodb_client=pymongo.MongoClient):
         self._host = host
         self._port = port
         self._database = database
         self._user = user
         self._password = password
         self._timeout = timeout
+        self._mongodb_client = mongodb_client
         self._authenticate()
 
     @property
@@ -33,7 +35,7 @@ class MongoDB(object):
             user=self._user, password=self._password, host=self._host)
 
     def _init_database_client(self):
-        client = getattr(pymongo.MongoClient(
+        client = getattr(self._mongodb_client(
             self._connection_string,
             connectTimeoutMS=self._timeout
 
