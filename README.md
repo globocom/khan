@@ -11,7 +11,7 @@ Khan presents a real time list of queries running in a given MongoDB instance an
 
 
 ```sh
-pip install khan
+pip install khan-mongo
 ```
 
 ## Usage
