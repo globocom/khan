@@ -41,7 +41,6 @@ class Replication(object):
             if member['stateStr'] == 'PRIMARY':
                 optimeDate_Primary = member['optimeDate'].replace(tzinfo=tz.tzutc()).astimezone(tz.tzlocal())
 
-
         for member in replSetGetStatus['members']:
             name = member['name']
             host, port = name.split(":")
