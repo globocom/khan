@@ -1,5 +1,4 @@
 from operator import itemgetter
-from collections import defaultdict
 from collections import OrderedDict
 from .base import BaseCommand
 
@@ -14,17 +13,17 @@ class TopCommand(BaseCommand):
         return 'Yes' if operation["waitingForLock"] else 'No'
 
     def _get_duration_in_seconds(self, operation):
-        return str(operation['microsecs_running'] / 1000000) + "s"
+        return str(int(operation['microsecs_running'] / 1000000)) + "s"
 
     def _get_operations(self):
-        operations = defaultdict(
-            int, self._database_connection.current_op()['inprog']
-        )
+        operations = self._database_connection.current_op()['inprog']
+        for operation in  operations:
+            if 'microsecs_running' not in operation:
+                operation['microsecs_running'] = 0
         return self._sort_operations_by(operations, 'microsecs_running')
 
     def _build_reponse_dict(self, operation, line, query):
         current = OrderedDict()
-        current["#"] = line
         current["Id"] = operation["connectionId"]
         current["Op"] = operation["op"]
         current["wfl"] = self._is_waiting_for_lock(operation)
