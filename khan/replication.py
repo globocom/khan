@@ -1,5 +1,5 @@
+from __future__ import print_function
 import time
-from operator import itemgetter
 from prettytable import PrettyTable
 from datetime import datetime as dt
 from dateutil import tz
@@ -17,7 +17,7 @@ class Replication(object):
             self._clear_shell()
 
             st = dt.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
-            print "### {} ###".format(st)
+            print("### {} ###".format(st))
             self.current_status()
 
             time.sleep(1.0 - ((time.time() - start_time) % 1.0))
@@ -68,7 +68,7 @@ class Replication(object):
             table.add_row([host, port, state, optimeDate_str, delay, health,
                           priority, votes, hidden])
 
-        print table
+        print(table)
 
     def _clear_shell(self):
-        print "\x1b[H\x1b[2J",
+        print("\x1b[H\x1b[2J", end="")

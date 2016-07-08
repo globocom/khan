@@ -56,7 +56,7 @@ class MongoDB(object):
             return func(command)
         except pymongo.errors.PyMongoError as e:
             if attempts > 0:
-                print 'Reconnecting... Attemps: {}'.format(attempts)
+                print('Reconnecting... Attemps: {}'.format(attempts))
                 self._authenticate()
                 return self._execute(func, attempts-1, command)
             else:
