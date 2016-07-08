@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 import argparse
 from mongodb_client import MongoDB
-from commands.replication import ReplicationCommand
-from commands.top import TopCommand
+from commands import command_factory
 from formatter.table import show
 
 
@@ -64,12 +63,8 @@ def main():
         password=parameters.password
     )
 
-    if parameters.method == 'queries':
-        command = TopCommand(connection, parameters.filters)
-    elif parameters.method == 'replication':
-        command = ReplicationCommand(connection)
-    else:
-        raise AttributeError('Unknown method: {}'.format(parameters.method))
+    command_class = command_factory('queries')
+    command = command_class(connection, parameters.filters)
 
     for status in command.start():
         show(status)
