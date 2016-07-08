@@ -5,6 +5,7 @@ from .base import BaseCommand
 
 
 class ReplicationCommand(BaseCommand):
+    __command_name__ = 'replication'
 
     def _do(self):
         result = []
@@ -52,6 +53,5 @@ class ReplicationCommand(BaseCommand):
             current["Votes"] = votes
             current["Hidden"] = hidden
             result.append(current)
-
 
         return result

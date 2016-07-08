@@ -4,10 +4,7 @@ from .base import BaseCommand
 
 
 class TopCommand(BaseCommand):
-
-    def __init__(self, database_connection, filters):
-        self.filters = filters
-        super(TopCommand, self).__init__(database_connection)
+    __command_name__ = 'queries'
 
     def sort_operations_by(self, operations, field):
         for operation in operations:
@@ -29,7 +26,7 @@ class TopCommand(BaseCommand):
 
             duration = "NULL"
             if "microsecs_running" in operation:
-                duration = str(operation.get("microsecs_running")/1000000) + "s"
+                duration = str(operation.get("microsecs_running") / 1000000) + "s"
 
             waitingForLock = 'Yes' if operation["waitingForLock"] else 'No'
 
@@ -43,18 +40,18 @@ class TopCommand(BaseCommand):
             current["collection"] = operation["ns"]
             current["query"] = query
 
-            if self.is_in_filter(current, self.filters):
+            if self.is_in_filter(current):
                 result.append(current)
 
         return result
 
-    def is_in_filter(self, values, filters):
-        if not filters:
+    def is_in_filter(self, values):
+        if not self._filters:
             return True
 
-        if filters.keys() not in values.keys():
+        if self._filters.keys() not in values.keys():
             raise AttributeError(
-                "{} don't have {}".format(values.keys(), filters.keys())
+                "{} don't have {}".format(values.keys(), self._filters.keys())
             )
 
-        return all((filters[key] in values[key] for key in filters.keys()))
+        return all((self._filters[key] in values[key] for key in self._filters.keys()))

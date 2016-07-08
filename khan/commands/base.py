@@ -2,8 +2,10 @@ import time
 
 
 class BaseCommand(object):
+    __command_name__ = ''
 
-    def __init__(self, database_connection):
+    def __init__(self, database_connection, filters=None):
+        self._filters = filters
         self._database_connection = database_connection
 
     def start(self):
