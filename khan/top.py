@@ -32,12 +32,10 @@ class Top(object):
         table = PrettyTable()
         table.field_names = [
             "#", "Id", "Op", "wfl",
-            "Y", "Duration", "collection", "query"
+            "Yields", "Duration", "collection", "query"
         ]
 
-        with self._database_connection.pymongo() as client:
-            operations = client.current_op()['inprog']
-
+        operations = self._database_connection.current_op()['inprog']
         operations = self.sort_operations_by(operations, 'microsecs_running')
         for line, operation in enumerate(operations):
 

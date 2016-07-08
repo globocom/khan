@@ -29,9 +29,8 @@ class Replication(object):
             "Priority", "Votes", "Hidden",
         ]
 
-        with self._database_connection.pymongo() as client:
-            replSetGetStatus = client.command('replSetGetStatus')
-            replSetGetConfig = client.command('replSetGetConfig')
+        replSetGetStatus = self._database_connection.execute_command('replSetGetStatus')
+        replSetGetConfig = self._database_connection.execute_command('replSetGetConfig')
 
         config_members = {}
         for member in replSetGetConfig['config']['members']:
