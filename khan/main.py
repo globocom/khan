@@ -37,6 +37,13 @@ def arg_parse():
         required=True
     )
     parser.add_argument(
+        "-r", dest='refresh',
+        help="Refresh (seconds)",
+        default=1,
+        type=int,
+        required=False
+    )
+    parser.add_argument(
         "-m", dest='method',
         choices=[
             "queries",
@@ -63,8 +70,12 @@ def main():
         password=parameters.password
     )
 
+    command_options = {
+        'refresh': parameters.refresh,
+    }
+
     command_class = command_factory(parameters.method)
-    command = command_class(connection, parameters.filters)
+    command = command_class(connection, command_options, parameters.filters)
 
     for status in command.start():
         show(status)
