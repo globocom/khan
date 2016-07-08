@@ -9,7 +9,7 @@ class TopTable(BaseTable):
         header = OrderedDict()
         header['Id'] = 8
         header['Op'] = 8
-        header['wlf'] = 3
+        header['wfl'] = 3
         header['Yields'] = 6
         header['Duration'] = 8
         header['collection'] = 25
