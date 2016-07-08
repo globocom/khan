@@ -1,4 +1,5 @@
 from operator import itemgetter
+from collections import defaultdict
 from collections import OrderedDict
 from .base import BaseCommand
 
@@ -6,40 +7,43 @@ from .base import BaseCommand
 class TopCommand(BaseCommand):
     __command_name__ = 'queries'
 
-    def sort_operations_by(self, operations, field):
-        for operation in operations:
-            if field not in operation:
-                operation[field] = 0
-
+    def _sort_operations_by(self, operations, field):
         return sorted(operations, key=itemgetter(field), reverse=True)
+
+    def _is_waiting_for_lock(self, operation):
+        return 'Yes' if operation["waitingForLock"] else 'No'
+
+    def _get_duration_in_seconds(self, operation):
+        return str(operation['microsecs_running'] / 1000000) + "s"
+
+    def _get_operations(self):
+        operations = defaultdict(
+            int, self._database_connection.current_op()['inprog']
+        )
+        return self._sort_operations_by(operations, 'microsecs_running')
+
+    def _build_reponse_dict(self, operation, line, query):
+        current = OrderedDict()
+        current["#"] = line
+        current["Id"] = operation["connectionId"]
+        current["Op"] = operation["op"]
+        current["wfl"] = self._is_waiting_for_lock(operation)
+        current["Yields"] = operation["numYields"]
+        current["Duration"] = self._get_duration_in_seconds(operation)
+        current["collection"] = operation["ns"]
+        current["query"] = query
+        return current
 
     def _do(self):
         result = []
-        operations = self._database_connection.current_op()['inprog']
-        operations = self.sort_operations_by(operations, 'microsecs_running')
-        for line, operation in enumerate(operations):
+        for line, operation in enumerate(self._get_operations()):
             query = "NULL"
             if "insert" in operation:
                 query = str(operation["insert"])
             elif "query" in operation:
                 query = str(operation["query"])
 
-            duration = "NULL"
-            if "microsecs_running" in operation:
-                duration = str(operation.get("microsecs_running") / 1000000) + "s"
-
-            waitingForLock = 'Yes' if operation["waitingForLock"] else 'No'
-
-            current = OrderedDict()
-            current["#"] = line
-            current["Id"] = operation["connectionId"]
-            current["Op"] = operation["op"]
-            current["wfl"] = waitingForLock
-            current["Yields"] = operation["numYields"]
-            current["Duration"] = duration
-            current["collection"] = operation["ns"]
-            current["query"] = query
-
+            current = self._build_reponse_dict(operation, line, query)
             if self.is_in_filter(current):
                 result.append(current)
 
@@ -54,4 +58,6 @@ class TopCommand(BaseCommand):
                 "{} don't have {}".format(values.keys(), self._filters.keys())
             )
 
-        return all((self._filters[key] in values[key] for key in self._filters.keys()))
+        return all(
+            (self._filters[key] in values[key] for key in self._filters.keys())
+        )
