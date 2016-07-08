@@ -1,6 +1,4 @@
-# Khan - Globo.com Hack Day project
-
-Khan is a unix "top" clone for MongoDB, inspired by Innotop and Motop.
+# Khan is a unix "top" clone for MongoDB, inspired by Innotop and Motop.
 
 Khan presents a real time list of queries running in a given MongoDB instance and information about the replication status.
 
