@@ -3,6 +3,7 @@ import argparse
 from mongodb_client import MongoDB
 from commands.replication import ReplicationCommand
 from commands.top import TopCommand
+from formatter.table import show
 
 
 def arg_parse():
@@ -37,14 +38,12 @@ def arg_parse():
         required=True
     )
     parser.add_argument(
-        "-q", dest='is_query',
-        help="Show current queries",
-        action="store_true"
-    )
-    parser.add_argument(
-        "-r", dest='is_replication',
-        help="Show replication status",
-        action="store_true"
+        "-m", dest='method',
+        choices=[
+            "queries",
+            "replication"],
+        help="Show <method> status",
+        action="store"
     )
     return parser.parse_args()
 
@@ -58,11 +57,15 @@ def main():
         password=parameters.password
     )
 
-    if parameters.is_query:
-        TopCommand(connection).start()
+    if parameters.method == 'queries':
+        command = TopCommand(connection)
+    elif parameters.method == 'replication':
+        command = ReplicationCommand(connection)
+    else:
+        raise AttributeError('Unknown method: {}'.format(parameters.method))
 
-    if parameters.is_replication:
-        ReplicationCommand(connection).start()
+    for status in command.start():
+        show(status)
 
 
 if __name__ == '__main__':

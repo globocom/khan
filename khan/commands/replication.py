@@ -1,17 +1,13 @@
 from __future__ import print_function
-from prettytable import PrettyTable
 from dateutil import tz
+from collections import OrderedDict
 from .base import BaseCommand
 
 
 class ReplicationCommand(BaseCommand):
 
     def _do(self):
-        table = PrettyTable()
-        table.field_names = [
-            "Host", "Port", "State", "Last Update", "Delay", "Health",
-            "Priority", "Votes", "Hidden",
-        ]
+        result = []
 
         replSetGetStatus = self._database_connection.execute_command('replSetGetStatus')
         replSetGetConfig = self._database_connection.execute_command('replSetGetConfig')
@@ -34,22 +30,28 @@ class ReplicationCommand(BaseCommand):
             else:
                 health = 'Down'
 
-            if state == 'ARBITER':
-                delay = '-'
-                optimeDate_str = '-'
-            else:
+            delay = '-'
+            optimeDate = '-'
+            if state != 'ARBITER':
                 optimeDate = member['optimeDate'].replace(tzinfo=tz.tzutc()).astimezone(tz.tzlocal())
-                optimeDate_str = optimeDate.strftime('%d-%m-%Y %H:%M:%S')
                 if optimeDate_Primary:
                     delay = optimeDate_Primary - optimeDate
-                else:
-                    delay = '-'
 
             priority = config_members[name]['priority']
             votes = config_members[name]['votes']
             hidden = config_members[name]['hidden']
 
-            table.add_row([host, port, state, optimeDate_str, delay, health,
-                          priority, votes, hidden])
+            current = OrderedDict()
+            current["Host"] = host
+            current["Port"] = port
+            current["State"] = state
+            current["Last Update"] = optimeDate
+            current["Delay"] = delay
+            current["Health"] = health
+            current["Priority"] = priority
+            current["Votes"] = votes
+            current["Hidden"] = hidden
+            result.append(current)
 
-        print(table)
+
+        return result
