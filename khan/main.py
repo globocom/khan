@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import argparse
-import json
 from mongodb_client import MongoDB
 from commands import command_factory
 from formatter import formatter_factory
