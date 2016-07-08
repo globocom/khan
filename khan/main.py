@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import argparse
+import json
 from mongodb_client import MongoDB
 from commands import command_factory
 from formatter.table import show
@@ -49,7 +50,12 @@ def arg_parse():
         help="Dictionary with key/column and value/contains. "
              "E.g: \"{'Op': 'query', 'collection': 'db.users'}\". "
              "Only to queries method",
-        required=False
+        required=False, default={}
+    )
+    parser.add_argument(
+        "-l", dest='max_lines', type=int,
+        help="Max of lines in table",
+        required=False, default=30
     )
     return parser.parse_args()
 
@@ -63,11 +69,15 @@ def main():
         password=parameters.password
     )
 
+    if parameters.filters:
+        import ast
+        parameters.filters = ast.literal_eval(parameters.filters)
+
     command_class = command_factory(parameters.method)
     command = command_class(connection, parameters.filters)
 
     for status in command.start():
-        show(status)
+        show(status, parameters.max_lines)
 
 
 if __name__ == '__main__':
