@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 from setuptools import setup
+from khan import __version__, __author__, __email__
 
 with open('README.md') as readme_file:
     readme = readme_file.read()
@@ -12,11 +12,11 @@ test_requirements = requirements
 
 setup(
     name='khan',
-    version='0.1.0',
+    version=__version__,
     description="'hack day'",
     long_description=readme,
-    author="Mauro Andre Murari",
-    author_email='mauro_murari@hotmail.com',
+    author=__author__,
+    author_email=__email__,
     url='https://github.com/otherpirate/khan',
     packages=[
         'khan',

@@ -58,7 +58,7 @@ class MongoDB(object):
             if attempts > 0:
                 print('Reconnecting... Attemps: {}'.format(attempts))
                 self._authenticate()
-                return self._execute(func, attempts-1, command)
+                return self._execute(func, attempts - 1, command)
             else:
                 error_message = 'Error connecting to database {}: {}\n{}'.format(
                     self._database, self._connection_string, e)

@@ -28,7 +28,7 @@ def arg_parse():
         required=True
     )
     parser.add_argument(
-        "-u",  dest='user',
+        "-u", dest='user',
         help="Database user",
         required=True
     )
