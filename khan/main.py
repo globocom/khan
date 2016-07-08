@@ -3,7 +3,7 @@ import argparse
 import json
 from mongodb_client import MongoDB
 from commands import command_factory
-from formatter.table import show
+from formatter import formatter_factory
 
 
 def arg_parse():
@@ -87,8 +87,11 @@ def main():
     command_class = command_factory(parameters.method)
     command = command_class(connection, command_options, parameters.filters)
 
+    table_class = formatter_factory(parameters.method)
+    table = table_class(parameters.max_lines)
+
     for status in command.start():
-        show(status, parameters.max_lines)
+        table.show(status)
 
 
 if __name__ == '__main__':
