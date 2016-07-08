@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import argparse
-from mongodb_client import MongoDB
-from commands import command_factory
-from formatter import formatter_factory
+from khan.mongodb_client import MongoDB
+from khan.commands import command_factory
+from khan.formatter import formatter_factory
 
 
 def arg_parse():
@@ -89,12 +89,12 @@ def main():
     table_class = formatter_factory(parameters.method)
     table = table_class(parameters.max_lines)
 
-    for status in command.start():
-        table.show(status)
+    try:
+        for status in command.start():
+            table.show(status)
+    except KeyboardInterrupt:
+        pass
 
 
 if __name__ == '__main__':
-    try:
-        main()
-    except KeyboardInterrupt:
-        pass
+    main()

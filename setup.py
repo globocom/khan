@@ -11,7 +11,7 @@ requirements = [req[:-1] for req in open('requirements.txt', 'r').readlines()]
 test_requirements = requirements
 
 setup(
-    name='khan',
+    name='khan-mongo',
     version=__version__,
     description="'hack day'",
     long_description=readme,
@@ -27,7 +27,7 @@ setup(
     install_requires=requirements,
     entry_points={
         'console_scripts': [
-            'KHAN = khan.main:main',
+            'khan=khan.main:main',
         ],
     },
     license="MIT license",

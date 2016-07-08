@@ -13,11 +13,11 @@ clean-pyc: ## remove compiled python files
 pip: ## install python requirements
 	@pip install -r requirements.txt
 
-release: clean ## package and upload a release
+release: ## package and upload a release
 	python setup.py sdist upload
 	python setup.py bdist_wheel upload
 
-dist: clean ## builds source and wheel package
+dist: ## builds source and wheel package
 	python setup.py sdist
 	python setup.py bdist_wheel
 	ls -l dist
