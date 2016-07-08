@@ -5,6 +5,10 @@ from .base import BaseCommand
 
 class TopCommand(BaseCommand):
 
+    def __init__(self, database_connection, filters):
+        self.filters = filters
+        super(TopCommand, self).__init__(database_connection)
+
     def sort_operations_by(self, operations, field):
         for operation in operations:
             if field not in operation:
@@ -38,6 +42,19 @@ class TopCommand(BaseCommand):
             current["Duration"] = duration
             current["collection"] = operation["ns"]
             current["query"] = query
-            result.append(current)
+
+            if self.is_in_filter(current, self.filters):
+                result.append(current)
 
         return result
+
+    def is_in_filter(self, values, filters):
+        if not filters:
+            return True
+
+        if filters.keys() not in values.keys():
+            raise AttributeError(
+                "{} don't have {}".format(values.keys(), filters.keys())
+            )
+
+        return all((filters[key] in values[key] for key in filters.keys()))

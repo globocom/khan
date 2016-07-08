@@ -45,6 +45,13 @@ def arg_parse():
         help="Show <method> status",
         action="store"
     )
+    parser.add_argument(
+        "-f", dest='filters',
+        help="Dictionary with key/column and value/contains. "
+             "E.g: \"{'Op': 'query', 'collection': 'db.users'}\". "
+             "Only to queries method",
+        required=False
+    )
     return parser.parse_args()
 
 
@@ -58,7 +65,7 @@ def main():
     )
 
     if parameters.method == 'queries':
-        command = TopCommand(connection)
+        command = TopCommand(connection, parameters.filters)
     elif parameters.method == 'replication':
         command = ReplicationCommand(connection)
     else:
