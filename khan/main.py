@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import argparse
 from mongodb_client import MongoDB
-from top import Top
-from replication import Replication
+from commands.replication import ReplicationCommand
+from commands.top import TopCommand
 
 
 def arg_parse():
@@ -59,10 +59,10 @@ def main():
     )
 
     if parameters.is_query:
-        Top(connection).start()
+        TopCommand(connection).start()
 
     if parameters.is_replication:
-        Replication(connection).status()
+        ReplicationCommand(connection).start()
 
 
 if __name__ == '__main__':

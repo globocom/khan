@@ -1,26 +1,10 @@
 from __future__ import print_function
-import time
 from operator import itemgetter
 from prettytable import PrettyTable
-from datetime import datetime as dt
+from .base import BaseCommand
 
 
-class Top(object):
-
-    def __init__(self, database_connection):
-        self._database_connection = database_connection
-
-    def start(self, ):
-        start_time = time.time()
-
-        while True:
-            self._clear_shell()
-
-            st = dt.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
-            print("### {} ###".format(st))
-            self.current_status()
-
-            time.sleep(1.0 - ((time.time() - start_time) % 1.0))
+class TopCommand(BaseCommand):
 
     def sort_operations_by(self, operations, field):
         for operation in operations:
@@ -29,7 +13,7 @@ class Top(object):
 
         return sorted(operations, key=itemgetter(field), reverse=True)
 
-    def current_status(self):
+    def _do(self):
         table = PrettyTable()
         table.field_names = [
             "#", "Id", "Op", "wfl",
@@ -63,6 +47,3 @@ class Top(object):
                 table.add_row(['', '', '', '', '', '', '', query[i:i+80]])
 
         print(table)
-
-    def _clear_shell(self):
-        print("\x1b[H\x1b[2J", end="")
