@@ -20,7 +20,8 @@ def arg_parse():
         '--port',
         help="MongoDB port",
         default = 27017,
-        type = int
+        type = int,
+        required = False
     )
     parser.add_argument(
         '--database',
