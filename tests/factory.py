@@ -24,7 +24,7 @@ class Database(object):
             raise pymongo.errors.OperationFailure(Exception(), code=18)
         return {'user': user, 'password': password}
 
-    def current_op(self):
+    def current_op(self, command):
         return {'it': 'works'}
 
     def command(self, command):
