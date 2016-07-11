@@ -17,12 +17,12 @@ pip install khan-mongo
 ## Usage
 
 ```sh
-khan --host <host> --port <port> --database <AdminDatabase> -u <user> -p <password> [-q|-r]
+khan --host <host> [--port <port>] --database <AdminDatabase> -u <user> -p <password> -m [queries|replication]
 ```
 
--q Show current ops
+`-m queries` Show current ops
 
--r Show replication status/info
+`-m replication` Show replication status/info
 
 ## Support
 
