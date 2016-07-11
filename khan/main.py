@@ -21,7 +21,7 @@ def arg_parse():
         help="MongoDB port",
         default=27017,
         type=int,
-        required = False
+        required=False
     )
     parser.add_argument(
         '--database',
@@ -77,7 +77,7 @@ def main():
         parameters.password = getpass.getpass("Enter password: ")
 
     connection = MongoDB(
-        host=parameters.host, port=parameters.host,
+        host=parameters.host, port=parameters.port,
         database=parameters.database, user=parameters.user,
         password=parameters.password
     )
