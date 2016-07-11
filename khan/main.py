@@ -51,7 +51,8 @@ def arg_parse():
             "queries",
             "replication"],
         help="Show <method> status",
-        action="store"
+        action="store",
+        required=True
     )
     parser.add_argument(
         "-f", dest='filters',
