@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import argparse
-from khan.mongodb_client import MongoDB
+from khan.mongodb_client import MongoDB, AuthenticationError, ConnectionError
 from khan.commands import command_factory
 from khan.formatter import formatter_factory
 
@@ -76,11 +76,15 @@ def main():
         import getpass
         parameters.password = getpass.getpass("Enter password: ")
 
-    connection = MongoDB(
-        host=parameters.host, port=parameters.port,
-        database=parameters.database, user=parameters.user,
-        password=parameters.password
-    )
+    try:
+        connection = MongoDB(
+            host=parameters.host, port=parameters.port,
+            database=parameters.database, user=parameters.user,
+            password=parameters.password
+        )
+    except AuthenticationError as error:
+        print("Error -> {}".format(error))
+        exit(1)
 
     command_options = {
         'refresh': parameters.refresh,
@@ -101,6 +105,9 @@ def main():
             table.show(status)
     except KeyboardInterrupt:
         pass
+    except ConnectionError as error:
+        print("Error -> {}".format(error))
+        exit(1)
 
 
 if __name__ == '__main__':
