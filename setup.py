@@ -3,9 +3,6 @@
 from setuptools import setup
 from khan import __version__, __author__, __email__
 
-with open('README.md') as readme_file:
-    readme = readme_file.read()
-
 requirements = [req[:-1] for req in open('requirements.txt', 'r').readlines()]
 
 test_requirements = requirements
@@ -13,8 +10,8 @@ test_requirements = requirements
 setup(
     name='khan-mongo',
     version=__version__,
-    description="'hack day'",
-    long_description=readme,
+    description="'Khan'",
+    long_description='# Khan is a unix "top" clone for MongoDB, inspired by Innotop and Motop.',
     author=__author__,
     author_email=__email__,
     url='https://github.com/otherpirate/khan',
