@@ -4,9 +4,9 @@ from khan import mongodb_client
 from . import factory
 
 
-def test_mongo_db_client_connection_string(mongo_client, user, password, host):
-    connection_string = 'mongodb://{user}:{password}@{host}'.format(
-        user=user, password=password, host=host
+def test_mongo_db_client_connection_string(mongo_client, user, password, host, port):
+    connection_string = 'mongodb://{user}:{password}@{host}:{port}'.format(
+        user=user, password=password, host=host, port=port
     )
     assert mongo_client._connection_string == connection_string
 
