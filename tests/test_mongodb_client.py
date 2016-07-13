@@ -29,8 +29,8 @@ def test_database_client_fails_with_authentication_error(
             host, port, database_fails, user, password,
             mongodb_client=factory.FakeMongoClient
         )
-    error_msg = 'Invalid credentials to database {}: mongodb://{}:{}@{}'.format(
-        database_fails, user, password, host)
+    error_msg = 'Invalid credentials to database {}: mongodb://{}:{}@{}:{}'.format(
+        database_fails, user, password, host, port)
     assert str(exc.value) == error_msg
 
 
