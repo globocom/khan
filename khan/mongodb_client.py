@@ -6,6 +6,7 @@ import pymongo
 LOG = logging.getLogger(__name__)
 
 MONGO_CONNECTION_DEFAULT_TIMEOUT = 5000
+MONGO_AUTHENTICATION_ERROR_CODE = 18
 
 
 class AuthenticationError(Exception):
@@ -48,7 +49,7 @@ class MongoDB(object):
         try:
             return self._client.authenticate(self._user, self._password)
         except pymongo.errors.OperationFailure as e:
-            if e.code == 18:
+            if e.code == MONGO_AUTHENTICATION_ERROR_CODE:
                 error_message = 'Invalid credentials to database {}: {}'.format(
                     self._database, self._connection_string)
                 raise AuthenticationError(error_message)
@@ -57,7 +58,7 @@ class MongoDB(object):
         try:
             return func(command)
         except pymongo.errors.PyMongoError as e:
-            if attempts > 0:
+            if attempts > 0 and getattr(e, 'code', 0) != MONGO_AUTHENTICATION_ERROR_CODE:
                 print('Reconnecting... Attemps: {}'.format(attempts))
                 self._authenticate()
                 return self._execute(func, attempts - 1, command)

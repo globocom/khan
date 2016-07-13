@@ -83,7 +83,7 @@ def main():
             password=parameters.password
         )
     except AuthenticationError as error:
-        print("Error -> {}".format(error))
+        print("{}".format(error))
         exit(1)
 
     command_options = {
@@ -106,7 +106,7 @@ def main():
     except KeyboardInterrupt:
         pass
     except ConnectionError as error:
-        print("Error -> {}".format(error))
+        print("{}".format(error))
         exit(1)
 
 
