@@ -31,9 +31,9 @@ class MongoDB(object):
 
     @property
     def _connection_string(self):
-        return 'mongodb://{user}:{password}@{host}'.format(
-            user=self._user, password=self._password, host=self._host)
-
+        return 'mongodb://{user}:{password}@{host}:{port}'.format(
+            user=self._user, password=self._password, host=self._host, port=self._port)
+     
     def _init_database_client(self):
         client = getattr(self._mongodb_client(
             self._connection_string,
