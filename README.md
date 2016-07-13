@@ -1,5 +1,7 @@
 # Khan is a unix "top" clone for MongoDB, inspired by Innotop and Motop.
 
+[![Build Status](https://travis-ci.org/globocom/khan.svg?branch=master)](https://travis-ci.org/globocom/khan)
+
 Khan presents a real time list of queries running in a given MongoDB instance and information about the replication status.
 
 ## Dependencies
